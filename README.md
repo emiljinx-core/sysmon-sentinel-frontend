@@ -1,36 +1,211 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛡️ Sysmon Sentinel
 
-## Getting Started
+> AI-powered threat detection and analysis system for Windows Sysmon event logs
 
-First, run the development server:
+🚀 Live Demo: https://sysmon-sentinel-8xtg-t6520tila-emiljinx-cores-projects.vercel.app
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+📦 Full Research Repository: https://github.com/emiljinx-core/sysmon-sentinel
+
+Sysmon Sentinel is an end-to-end machine learning system that classifies Windows Sysmon logs as benign or malicious using transformer-based models, ensemble learning techniques, and an interactive AI-powered analysis interface.
+
+## ✨ Features
+
+- **🤖 Dual Transformer Models**: DistilBERT and TinyBERT fine-tuned for log classification
+- **🎯 Ensemble Learning**: Hard voting, soft voting, and stacking ensemble methods
+- **📊 High Accuracy**: Achieves 97.61% accuracy with best-performing models
+- **💻 Interactive UI**: Next.js dashboard with AI-powered threat explanations
+- **🔍 Log Analysis**: Real-time "Why Benign/Malicious?" insights using Groq LLaMA 3
+- **📈 Comprehensive Metrics**: ROC curves, precision-recall curves, and confusion matrices
+
+## 🏆 Model Performance
+
+| Model | Accuracy | Precision | Recall | F1 Score | AUC |
+|-------|----------|-----------|--------|----------|-----|
+| DistilBERT | 96.10% | 97.72% | 94.97% | 96.33% | 0.9926 |
+| TinyBERT | **97.61%** | 96.30% | 99.40% | **97.82%** | 0.9948 |
+| Soft Voting | 97.18% | 97.96% | 96.78% | 97.37% | **0.9972** |
+| Stacking Ensemble | **97.61%** | 97.98% | 97.58% | **97.78%** | 0.9971 |
+
+## 📁 Project Structure
+
+```
+SLM_Project/
+├── logs/                      # Preprocessed Sysmon event logs
+│   ├── benign_events.csv
+│   ├── malicious_events.csv
+│   ├── train.csv
+│   ├── val.csv
+│   └── test.csv
+├── models/                    # Trained transformer models
+│   ├── distilbert-sysmon-final/
+│   └── tinybert-sysmon-final/
+├── results/                   # Evaluation outputs & visualizations
+│   ├── preds_*.csv
+│   ├── confmat_*.png
+│   ├── roc_all_models.png
+│   └── pr_all_models.png
+├── scripts/                   # Training & evaluation scripts
+│   ├── train_distilbert.py
+│   ├── train_tinybert.py
+│   ├── evaluate_*.py
+│   ├── ensemble_*.py
+│   └── preprocess_logs.py
+└── frontend/                  # Next.js web interface
+    └── app/
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Getting Started
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Python 3.8+
+- Node.js 18+
+- Git LFS (for model files)
+- CUDA-capable GPU (recommended)
 
-## Learn More
+### Installation
 
-To learn more about Next.js, take a look at the following resources:
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/emiljinx-core/SLMResearch.git
+   cd SLMResearch
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. **Set up Git LFS for model files**
+   ```bash
+   git lfs install
+   git lfs track "*.bin" "*.safetensors" "*.pt" "*.json"
+   git lfs pull
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. **Install Python dependencies**
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-## Deploy on Vercel
+4. **Install frontend dependencies**
+   ```bash
+   cd frontend
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Usage
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### Training Models
+
+Train the DistilBERT model:
+```bash
+python scripts/train_distilbert.py
+```
+
+Train the TinyBERT model:
+```bash
+python scripts/train_tinybert.py
+```
+
+#### Evaluation
+
+Evaluate individual models:
+```bash
+python scripts/evaluate_distilbert.py
+python scripts/evaluate_tinybert.py
+```
+
+Run ensemble methods:
+```bash
+python scripts/ensemble_soft_voting.py
+python scripts/ensemble_stacking.py
+```
+
+#### Launch Web Interface
+
+```bash
+cd frontend
+npm run dev
+```
+
+Navigate to `http://localhost:3000` to access the AI Log Analyzer dashboard.
+
+## 🎨 Frontend Features
+
+The Next.js web interface provides:
+
+- **Dual-tab layout**: Separate views for benign and malicious logs
+- **Expandable log entries**: Full JSON event details
+- **AI-powered analysis**: 
+  - "Why Benign?" explanations
+  - "Why Malicious?" threat breakdowns
+  - "What Should User Do?" actionable recommendations
+- **Real-time inference**: Groq LLaMA 3 API integration
+- **Cybersecurity-themed UI**: Built with ShadCN UI and Framer Motion
+
+## 📊 Evaluation Metrics
+
+The system generates comprehensive performance reports including:
+
+- Confusion matrices for each model
+- ROC curves (Receiver Operating Characteristic)
+- Precision-Recall curves
+- Per-class performance metrics
+- Model comparison tables
+
+## 🛠️ Technologies Used
+
+### Machine Learning
+- PyTorch
+- Hugging Face Transformers
+- Scikit-learn
+- Pandas & NumPy
+
+### Frontend
+- Next.js 14 (App Router)
+- React
+- ShadCN UI
+- Framer Motion
+- Tailwind CSS
+
+### AI Integration
+- Groq API (LLaMA 3)
+
+## 📝 Dataset
+
+The system processes Windows Sysmon event logs containing:
+- Process creation events
+- Network connections
+- File modifications
+- Registry changes
+- Driver loads
+
+Logs are preprocessed, cleaned, and split into stratified train/validation/test sets.
+
+## 🤝 Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Windows Sysmon for event logging capabilities
+- Hugging Face for transformer models
+- Groq for LLaMA 3 API access
+
+## 📧 Contact
+
+Project Maintainer - [@emiljinx-core](https://github.com/emiljinx-core)
+
+Project Link: [https://github.com/emiljinx-core/SLMResearch](https://github.com/emiljinx-core/SLMResearch)
+
+---
+
+<div align="center">
+Made with ❤️ for cybersecurity professionals
+</div>
