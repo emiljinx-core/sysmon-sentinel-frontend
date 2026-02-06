@@ -2,8 +2,7 @@
 
 > AI-powered threat detection and analysis system for Windows Sysmon event logs
 
-🚀 Live Demo: [https://sysmon-sentinel-8xtg-t6520tila-emiljinx-cores-projects.vercel.app
-](https://smartcti.vercel.app)
+🚀 Live Demo: https://smartcti.vercel.app
 📦 Full Research Repository: https://github.com/emiljinx-core/sysmon-sentinel
 
 Sysmon Sentinel is an end-to-end machine learning system that classifies Windows Sysmon logs as benign or malicious using transformer-based models, ensemble learning techniques, and an interactive AI-powered analysis interface.
